@@ -1,22 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Laboratory System</title>
-    <link rel="stylesheet" href="mainPage.css">
 </head>
 <body>
     <header>
-        <div class="header">
-            <div class="h" id="header_text">
-        <h1 id="header">
-            Diagnostic Center KD
+        <h1 align="center"  id="header">
+            Diagnostic Center
         </h1>
-            </div>
-            <div class="h" id="image">
-        <img  id="img" src="blood.png">
-            </div>
-        </div>
     </header>
 
     <div>
@@ -34,13 +26,15 @@
             </tbody>
         </table>
     </div>
-    <div>
-        <form action="/addPatient" th:object="${patient}" method="post">
-            <input type="text" th:field="*{name}"lder="Name" >
+    <div align="center">
+        <form action="/addPatient"  method="post" th:object="${patient}">
+            <input type="text" th:field="*{name}"placeholder="Name" >
             <input type="text" th:field="*{surname}" placeholder="Surname">
             <input type="submit" value="Submit">
         </form>
     </div>
+
+
 
 </body>
 </html>

@@ -1,28 +1,26 @@
 package com.pl.kd.Model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "user")
 public class Patient {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String surname;
+    @OneToMany
+    private List<Visit> visits;
 
-    public Patient(Integer id, String name, String surname) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
+    public List<Visit> getVisits() {
+        return visits;
     }
 
-    public Patient() {
+    public void setVisits(List<Visit> visits) {
+        this.visits = visits;
     }
 
     public Integer getId() {

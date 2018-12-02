@@ -6,17 +6,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class addPatientController {
+public class mainPageController {
 
-    @GetMapping("/add")
-    public String addPatientForm(Model model){
+    @GetMapping("/")
+    public String init(Model model){
         model.addAttribute("patient", new Patient());
-        return "addPatient";
+        return "index";
     }
 
-    @RequestMapping(value = "/addPatient", method = RequestMethod.POST)
-    @ResponseBody
-    public void addPatient(@ModelAttribute("patient") Patient patient){
+    @PostMapping("/addPatient")
+    public String addPatient(@ModelAttribute("patient") Patient patient ){
         System.out.println("adding patient data"+ patient.getName());
+        return "index";
     }
 }
