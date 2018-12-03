@@ -15,6 +15,16 @@ public class Patient {
     @OneToMany
     private List<Visit> visits;
 
+    @Override
+    public String toString() {
+        return "Patient{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", visits=" + visits +
+                '}';
+    }
+
     public List<Visit> getVisits() {
         return visits;
     }
