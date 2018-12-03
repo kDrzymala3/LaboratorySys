@@ -50,7 +50,7 @@ public class patientControler {
     }
 
     @PostMapping("/addVisit/{id}")
-    public String addVisit(@ModelAttribute("visit") Visit visit, @PathVariable Integer id,Model model,@ModelAttribute("testType") String testType){
+    public String addVisit(@ModelAttribute("visit") Visit visit, @PathVariable Integer id,Model model,@ModelAttribute("testTypeName") String testType){
         Optional<Patient> patientById = patientRepository.findById(id);
         patientById.ifPresent(patient -> model.addAttribute("patient",patient));
         patientById.ifPresent(patient -> visit.setPatient(patient));
