@@ -49,6 +49,13 @@ public class patientControler {
         return patientById.map(patient -> "patientInfo").orElse("noPatient");
     }
 
+    @GetMapping("/deleteVisit/{id}&{patientId}")
+    public String deleteVisit(@PathVariable Integer id,@PathVariable Integer patientId, Model model){
+        visitRepository.deleteById(id);
+        System.out.println(patientId);
+        Optional<Patient> byId = patientRepository.findById(patientId);
+        return byId.map(patient1 -> "redirect:/patient/"+patientId).orElse("noPatient");
+    }
     @PostMapping("/addVisit/{id}")
     public String addVisit(@ModelAttribute("visit") Visit visit, @PathVariable Integer id,Model model,@ModelAttribute("testTypeName") String testType){
         Optional<Patient> patientById = patientRepository.findById(id);
@@ -56,15 +63,14 @@ public class patientControler {
         patientById.ifPresent(patient -> visit.setPatient(patient));
         TestType testTypeObj = testTypeRepository.findByName(testType);
         visit.setTestType(testTypeObj);
+        System.out.println(visit.toString());
         visitRepository.save(visit);
 
         List<Visit> byPatientId = visitRepository.findByPatientId(id);
-        for (Visit v :byPatientId){
-            System.out.println(v.toString());
-        }
         model.addAttribute("visitList",byPatientId);
         Iterable<TestType> tests=testTypeRepository.findAll();
         model.addAttribute("testTypeList",tests);
-        return patientById.map(patient -> "patientInfo").orElse("noPatient");
+        model.addAttribute("visit",new Visit());
+        return patientById.map(patient -> "redirect:/patient/"+patient.getId()).orElse("noPatient");
     }
 }

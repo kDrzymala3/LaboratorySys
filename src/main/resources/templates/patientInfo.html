@@ -24,8 +24,8 @@
         <tbody>
         <tr>
             <td th:text="${patient.id}"></td>
-            <td  th:text="${patient.surname}"></td>
-            <td th:text="${patient.name}"></td>
+            <td  th:text="${patient.name}"></td>
+            <td th:text="${patient.surname}"></td>
             <td>Edit</td>
         </tr>
         </tbody>
@@ -39,7 +39,6 @@
         <th >Date</th>
         <th>Price</th>
         <th>-</th>
-        <th>-</th>
     </tr>
     </thead>
     <tbody>
@@ -47,18 +46,18 @@
         <td th:text="${visit.testType.name}"></td>
         <td th:text="${visit.date}"></td>
         <td th:text="${visit.testType.price}"></td>
-        <td>Edit</td>
-        <td>Delete</td>
+        <td><a th:href="@{'/deleteVisit/' + ${visit.id} +'&'+${patient.id}}">Delete</a></td>
     </tr>
     </tbody>
 </table></div>
 
 <div align="center">
-    <select name="testTypeName" form="addVisit" >
+    <select name="testTypeName" form="addVisit"  style="display: inline-block">
             <option th:each="testType:${testTypeList}" th:text="${testType.name}"></option>
     </select>
-    <form th:action="'/addVisit/' + ${patient.id}" id="addVisit" method="post" th:object="${visit}">
+    <form th:action="'/addVisit/' + ${patient.id}" id="addVisit" method="post" th:object="${visit}" style="display: inline-block">
         <input type="text" th:field="*{date}"placeholder="Enter Date" >
+        <input type="text" th:field="*{id}" hidden >
         <input type="submit" value="Submit">
     </form>
 </div>

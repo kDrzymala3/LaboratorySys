@@ -1,8 +1,6 @@
 package com.pl.kd.Control;
 
 import com.pl.kd.Model.Patient;
-import com.pl.kd.Model.TestType;
-import com.pl.kd.Model.Visit;
 import com.pl.kd.repository.PatientRepository;
 import com.pl.kd.repository.TestTypeRepository;
 import com.pl.kd.repository.VisitRepository;
@@ -12,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Controller
 public class mainPageController {
@@ -36,10 +34,7 @@ public class mainPageController {
     @GetMapping("/")
     public String init(Model model){
         Iterable<Patient> patients = patientRepository.findAll();
-        for (Patient p:patients){
-            System.out.println(p.toString());
-        }
-        model.addAttribute("patientLIst",patients);
+        model.addAttribute("patientList",patients);
         model.addAttribute("patient", new Patient());
         return "index";
     }
@@ -50,12 +45,42 @@ public class mainPageController {
         return "redirect:/";
     }
 
+    @GetMapping("/sortPatientById")
+    public String sortById(Model model){
+        List<Patient> patientList = patientRepository.findAllByOrderByIdAsc();
+        model.addAttribute("patientList",patientList);
+        model.addAttribute("patient",new Patient());
+        return "index";
+    }
+
+    @GetMapping("/sortPatientByName")
+    public String sortByName(Model model){
+        List<Patient> patientsList = patientRepository.findAllByOrderByNameAsc();
+        model.addAttribute("patientList",patientsList);
+        model.addAttribute("patient",new Patient());
+        return "index";
+    }
+
+    @GetMapping("/sortPatientBySurname")
+    public String sortBySurname(Model model){
+        List<Patient> patientsList = patientRepository.findAllByOrderBySurnameAsc();
+        model.addAttribute("patientList",patientsList);
+        model.addAttribute("patient",new Patient());
+        return "index";
+    }
+
+
 
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Integer id,Model model){
-        patientRepository.deleteById(id);
-        System.out.println("Deleting...");
+        try {
+            patientRepository.deleteById(id);
+        }catch (Exception e){
+            System.out.println("uppps error");
+            return "redirect:/";
+        }
+
         return "redirect:/";
     }
 }
