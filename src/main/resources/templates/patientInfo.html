@@ -7,8 +7,28 @@
 
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="width: 50%; margin: auto">
+    <a class="navbar-brand" >Diagnostic Center</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-<h1 align="center" style="margin: 10px">Patient appointments</h1>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/home}" >Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/testRange}">Tests range</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<h4 align="center" style="margin: 10px">Patient appointments</h4>
+
+
 
 <div>
 
@@ -26,7 +46,7 @@
             <td th:text="${patient.id}"></td>
             <td  th:text="${patient.name}"></td>
             <td th:text="${patient.surname}"></td>
-            <td>Edit</td>
+            <td><a th:href=" @{'/editPatient/'+${patient.id}}">Edit</a></td>
         </tr>
         </tbody>
     </table>
@@ -39,6 +59,7 @@
         <th >Date</th>
         <th>Price</th>
         <th>-</th>
+        <th>-</th>
     </tr>
     </thead>
     <tbody>
@@ -46,6 +67,7 @@
         <td th:text="${visit.testType.name}"></td>
         <td th:text="${visit.date}"></td>
         <td th:text="${visit.testType.price}"></td>
+        <td><a th:href="@{'/editVisitPage/' + ${visit.id} +'&'+${patient.id}}">Edit</a></td>
         <td><a th:href="@{'/deleteVisit/' + ${visit.id} +'&'+${patient.id}}">Delete</a></td>
     </tr>
     </tbody>
@@ -56,7 +78,7 @@
             <option th:each="testType:${testTypeList}" th:text="${testType.name}"></option>
     </select>
     <form th:action="'/addVisit/' + ${patient.id}" id="addVisit" method="post" th:object="${visit}" style="display: inline-block">
-        <input type="text" th:field="*{date}"placeholder="Enter Date" >
+        <input type="text" th:field="*{date}" placeholder="Enter Date" >
         <input type="text" th:field="*{id}" hidden >
         <input type="submit" value="Submit">
     </form>

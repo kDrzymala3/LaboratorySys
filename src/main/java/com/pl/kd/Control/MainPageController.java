@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @Controller
-public class mainPageController {
+public class MainPageController {
 
     @Autowired
     private PatientRepository patientRepository;
@@ -25,7 +25,7 @@ public class mainPageController {
     private TestTypeRepository testTypeRepository;
 
     @Autowired
-    public mainPageController(PatientRepository patientRepository, VisitRepository visitRepository, TestTypeRepository testTypeRepository){
+    public MainPageController(PatientRepository patientRepository, VisitRepository visitRepository, TestTypeRepository testTypeRepository){
         this.patientRepository=patientRepository;
         this.visitRepository=visitRepository;
         this.testTypeRepository=testTypeRepository;
@@ -82,5 +82,15 @@ public class mainPageController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/home")
+    public String home(){
+        return "redirect:/";
+    }
+
+    @GetMapping("/testRange")
+    public String testRange(){
+        return "/testRange";
     }
 }

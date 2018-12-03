@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface VisitRepository extends CrudRepository<Visit,Integer> {
     List<Visit> findByPatientId(Integer id);
-
-
+    List<Visit> findAllByOrderByTestTypeAsc();
+    List<Visit> findAllByOrderByDateAsc();
 }

@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.persistence.Id;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class patientControler {
+public class PatientController {
 
 
     @Autowired
@@ -32,7 +33,7 @@ public class patientControler {
 
 
     @Autowired
-    public patientControler(PatientRepository patientRepository, VisitRepository visitRepository){
+    public PatientController(PatientRepository patientRepository, VisitRepository visitRepository){
         this.patientRepository=patientRepository;
         this.visitRepository=visitRepository;
     }
@@ -56,6 +57,18 @@ public class patientControler {
         Optional<Patient> byId = patientRepository.findById(patientId);
         return byId.map(patient1 -> "redirect:/patient/"+patientId).orElse("noPatient");
     }
+
+    @GetMapping("editVisitPage/{visitId}&{patientId}")
+    public String editVisitPage(@PathVariable Integer visitId,@PathVariable Integer patientId, Model model){
+        model.addAttribute("patientId",patientId);
+        Optional<Visit> visitById= visitRepository.findById(visitId);
+        visitById.ifPresent(visit -> model.addAttribute("visit",visit));
+        Optional<Patient> patientById = patientRepository.findById(patientId);
+        patientById.ifPresent(patient -> model.addAttribute("patient",patient));
+        Iterable<TestType> testTypes = testTypeRepository.findAll();
+        model.addAttribute("testTypeList",testTypes);
+        return  "/editVisitPage";
+    }
     @PostMapping("/addVisit/{id}")
     public String addVisit(@ModelAttribute("visit") Visit visit, @PathVariable Integer id,Model model,@ModelAttribute("testTypeName") String testType){
         Optional<Patient> patientById = patientRepository.findById(id);
@@ -73,4 +86,28 @@ public class patientControler {
         model.addAttribute("visit",new Visit());
         return patientById.map(patient -> "redirect:/patient/"+patient.getId()).orElse("noPatient");
     }
+
+
+//    @GetMapping("/sortVisitsByType/{id}")
+//    public String sortVisitsByType(@PathVariable Integer id, Model model){
+//        List<Visit> visitList = visitRepository.findAllByOrderByTestTypeAsc();
+//        model.addAttribute("visitList",visitList);
+//        Optional<Patient> patientById = patientRepository.findById(id);
+//        return patientById.map(patient -> "redirect:/patient/"+patient.getId()).orElse("noPatient");
+//    }
+//
+//    @GetMapping("sortVisitsByDate/{id}")
+//    public String sortVisitsByDate(@PathVariable Integer id,Model model){
+//        List<Visit> visitList = visitRepository.findAllByOrderByDateAsc();
+//        model.addAttribute("visitList",visitList);
+//        Optional<Patient> patientById = patientRepository.findById(id);
+//        return patientById.map(patient -> "redirect:/patient/"+patient.getId()).orElse("noPatient");
+//    }
+//
+//    @GetMapping("sortVisitsByPrice/{id}")
+//    public String sortVisitsByPrcie(@PathVariable Integer id, Model model){
+//        // TODO SORT BY PRICE
+//        Optional<Patient> patientById = patientRepository.findById(id);
+//        return patientById.map(patient -> "redirect:/patient/"+patient.getId()).orElse("noPatient");
+//    }
 }
