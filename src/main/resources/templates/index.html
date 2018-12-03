@@ -20,16 +20,14 @@
                 <th>Name</th>
                 <th>Surname</th>
                 <th>-</th>
-                <th>-</th>
             </tr>
             </thead>
             <tbody>
-                <tr th:each="patient: ${patientLIst}">
-                    <td th:text="${patient.id}"></td>
-                <td th:text="${patient.name}"></td>
-                <td th:text="${patient.surname}"></td>
-                    <td>Edit</td>
-                    <!--<td><a th:href="@{/delete/${patient.id}}">Delete</a></td>-->
+                <tr  th:each="patient: ${patientLIst}">
+                    <td><a th:href="@{'/patient/' + ${patient.id}}" th:text="${patient.id}">1</a></td>
+                <td th:text="${patient.name}">Name</td>
+                <td th:text="${patient.surname}">Surname</td>
+                    <td><a th:href="@{'/delete/' + ${patient.id}}">Delete</a></td>
                 </tr>
             </tbody>
         </table>

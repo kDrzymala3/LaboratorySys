@@ -1,11 +1,17 @@
 package com.pl.kd.Control;
 
 import com.pl.kd.Model.Patient;
+import com.pl.kd.Model.TestType;
+import com.pl.kd.Model.Visit;
 import com.pl.kd.repository.PatientRepository;
+import com.pl.kd.repository.TestTypeRepository;
+import com.pl.kd.repository.VisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -15,7 +21,17 @@ public class mainPageController {
     private PatientRepository patientRepository;
 
     @Autowired
-    public mainPageController(PatientRepository patientRepository){this.patientRepository=patientRepository;}
+    private VisitRepository visitRepository;
+
+    @Autowired
+    private TestTypeRepository testTypeRepository;
+
+    @Autowired
+    public mainPageController(PatientRepository patientRepository, VisitRepository visitRepository, TestTypeRepository testTypeRepository){
+        this.patientRepository=patientRepository;
+        this.visitRepository=visitRepository;
+        this.testTypeRepository=testTypeRepository;
+    }
 
     @GetMapping("/")
     public String init(Model model){
@@ -34,12 +50,7 @@ public class mainPageController {
         return "redirect:/";
     }
 
-    @GetMapping("/patient/{id}")
-    public String patientInfo(@PathVariable Integer id,Model model){
-        Optional<Patient> patientById = patientRepository.findById(id);
-        patientById.ifPresent(patient -> model.addAttribute("Patient",patient));
-        return patientById.map(patient -> "patientInfo").orElse("noPatient");
-    }
+
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Integer id,Model model){

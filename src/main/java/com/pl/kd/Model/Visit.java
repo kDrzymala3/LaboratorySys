@@ -8,7 +8,7 @@ public class Visit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Integer id;
     private String date;
     @ManyToOne
     @JoinColumn(name = "patient_id")
@@ -16,6 +16,16 @@ public class Visit {
     @OneToOne
     @JoinColumn(name = "test_type_id")
     private TestType testType;
+
+    @Override
+    public String toString() {
+        return "Visit{" +
+                "id=" + id +
+                ", date='" + date + '\'' +
+                ", patient=" + patient +
+                ", testType=" + testType +
+                '}';
+    }
 
     public Patient getPatient() {
         return patient;
@@ -33,11 +43,11 @@ public class Visit {
         this.testType = testType;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

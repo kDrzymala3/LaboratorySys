@@ -14,4 +14,6 @@ insert into test_type(name,price,description) values
 insert into visit(date,patient_id,test_type_id) values
   ('02.12.2018',5,4),
   ('15.12.2018',1,2),
+  ('15.12.2018',1,1),
+  ('15.12.2018',1,3),
   ('28.12.2018',2,3);
