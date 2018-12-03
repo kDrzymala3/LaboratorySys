@@ -54,7 +54,7 @@
 </table></div>
 
 <div align="center">
-    <select name="testSelect" form="addVisit" >
+    <select name="testType" form="addVisit" >
             <option th:each="testType:${testTypeList}" th:text="${testType.name}"></option>
     </select>
     <form th:action="'/addVisit/' + ${patient.id}" id="addVisit" method="post" th:object="${visit}">

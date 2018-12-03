@@ -50,10 +50,14 @@ public class patientControler {
     }
 
     @PostMapping("/addVisit/{id}")
-    public String addVisit(@ModelAttribute("visit") Visit visit, @PathVariable Integer id,Model model){
-        visitRepository.save(visit);
+    public String addVisit(@ModelAttribute("visit") Visit visit, @PathVariable Integer id,Model model,@ModelAttribute("testType") String testType){
         Optional<Patient> patientById = patientRepository.findById(id);
         patientById.ifPresent(patient -> model.addAttribute("patient",patient));
+        patientById.ifPresent(patient -> visit.setPatient(patient));
+        TestType testTypeObj = testTypeRepository.findByName(testType);
+        visit.setTestType(testTypeObj);
+        visitRepository.save(visit);
+
         List<Visit> byPatientId = visitRepository.findByPatientId(id);
         for (Visit v :byPatientId){
             System.out.println(v.toString());
