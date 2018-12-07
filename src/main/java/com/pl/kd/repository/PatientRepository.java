@@ -11,5 +11,7 @@ public interface PatientRepository extends CrudRepository<Patient,Integer> {
     List<Patient> findAllByOrderByIdAsc();
     List<Patient> findAllByOrderByNameAsc();
     List<Patient> findAllByOrderBySurnameAsc();
+    List<Patient>findAllByNameContainingIgnoreCase(String name);
+    List<Patient>findAllBySurnameContainingIgnoreCase(String surname);
 
 }

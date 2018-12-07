@@ -87,6 +87,20 @@ public class PatientController {
         return patientById.map(patient -> "redirect:/patient/"+patient.getId()).orElse("noPatient");
     }
 
+    @GetMapping("/editPatient/{id}")
+    public String editPatientPage(@PathVariable Integer id,Model model){
+        Optional<Patient> patientById = patientRepository.findById(id);
+        patientById.ifPresent(patient -> model.addAttribute("patient",patient));
+        return patientById.map(patient -> "editPatientData").orElse("noPatient");
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editPatientData(@PathVariable Integer id,@ModelAttribute("patient") Patient patient){
+        patientRepository.save(patient);
+        Optional<Patient> byId = patientRepository.findById(id);
+        return byId.map(patient1 -> "redirect:/patient/"+patient.getId()).orElse("noPatient");
+    }
+
 
 //    @GetMapping("/sortVisitsByType/{id}")
 //    public String sortVisitsByType(@PathVariable Integer id, Model model){

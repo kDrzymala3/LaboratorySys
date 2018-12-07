@@ -3,6 +3,11 @@ package com.pl.kd.repository;
 import com.pl.kd.Model.TestType;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 public interface TestTypeRepository extends CrudRepository<TestType,Integer> {
     TestType findByName(String name);
+    List<TestType> findAllByOrderByIdAsc();
+    List<TestType> findAllByOrderByNameAsc();
+    List<TestType> findAllByOrderByPriceAsc();
 }

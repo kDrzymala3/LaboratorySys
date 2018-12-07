@@ -28,9 +28,10 @@ public class EditVisitController {
 
 
     @Autowired
-    public EditVisitController(PatientRepository patientRepository, VisitRepository visitRepository){
+    public EditVisitController(PatientRepository patientRepository, VisitRepository visitRepository,TestTypeRepository testTypeRepository){
         this.patientRepository=patientRepository;
         this.visitRepository=visitRepository;
+        this.testTypeRepository=testTypeRepository;
     }
 
     @PostMapping("/editVisit/{patientId}")

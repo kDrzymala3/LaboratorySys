@@ -1,6 +1,7 @@
 package com.pl.kd.Control;
 
 import com.pl.kd.Model.Patient;
+import com.pl.kd.Model.TestType;
 import com.pl.kd.repository.PatientRepository;
 import com.pl.kd.repository.TestTypeRepository;
 import com.pl.kd.repository.VisitRepository;
@@ -36,6 +37,8 @@ public class MainPageController {
         Iterable<Patient> patients = patientRepository.findAll();
         model.addAttribute("patientList",patients);
         model.addAttribute("patient", new Patient());
+        model.addAttribute("searchString", "");
+        model.addAttribute("string","");
         return "index";
     }
 
@@ -89,8 +92,22 @@ public class MainPageController {
         return "redirect:/";
     }
 
-    @GetMapping("/testRange")
-    public String testRange(){
-        return "/testRange";
+
+
+    @PostMapping("/searchPatientsBy")
+    public  String searchBy(Model model,@ModelAttribute("searchString") String searchString,@ModelAttribute("string") String search){
+        System.out.println(searchString);
+        System.out.println(search);
+        List<Patient> patients=null;
+        if (searchString.equals("N")) {
+            patients=patientRepository.findAllByNameContainingIgnoreCase(search);
+        }else if (searchString.equals("S")){
+            patients = patientRepository.findAllBySurnameContainingIgnoreCase(search);
+        }else {
+            System.out.println("Error");
+        }
+        model.addAttribute("patientList",patients);
+        model.addAttribute("patient",new Patient());
+        return "index";
     }
 }
