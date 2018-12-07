@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class TestTypeController {
@@ -83,6 +85,36 @@ public class TestTypeController {
     public String sortBySurname(Model model){
         List<TestType> testsList = testTypeRepository.findAllByOrderByPriceAsc();
         model.addAttribute("testsList",testsList);
+        model.addAttribute("testType",new TestType());
+        return "testRange";
+    }
+
+    @GetMapping("/editTestData/{id}")
+    public String editTestPage(@PathVariable Integer id,Model model){
+        Optional<TestType> byId = testTypeRepository.findById(id);
+        byId.ifPresent(testType -> model.addAttribute("testType",testType));
+        return "editTestData";
+    }
+
+    @PostMapping("/editTest/{id}")
+    public String editTest(@PathVariable Integer id,@ModelAttribute("testType") TestType testType) {
+        testTypeRepository.save(testType);
+        Optional<TestType> byId = testTypeRepository.findById(id);
+        return byId.map(patient1 -> "redirect:/testRange").orElse("noTestType");
+    }
+
+    @PostMapping("/searchTestsBy")
+    public  String searchBy(Model model,@ModelAttribute("searchString") String searchString,@ModelAttribute("string") String search){
+        List<TestType> testTypes=null;
+        if (searchString.equals("N")) {
+            testTypes=testTypeRepository.findAllByNameContainingIgnoreCase(search);
+        }else if (searchString.equals("P")){
+            testTypes=testTypeRepository.findAllByPriceContaining(new BigDecimal(search));
+        }else {
+            System.out.println("Error");
+        }
+        System.out.println(testTypes);
+        model.addAttribute("testsList",testTypes);
         model.addAttribute("testType",new TestType());
         return "testRange";
     }
